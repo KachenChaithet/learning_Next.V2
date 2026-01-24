@@ -3,6 +3,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
+import { ModeToggle } from "./theme-toggle";
 
 type NavItem = {
     label: string;
@@ -19,9 +20,9 @@ const navItems: NavItem[] = [
 export default function Navbar() {
 
     return (
-        <header className="sticky top-0 z-50 border-b bg-white">
+        <header className="sticky top-0 z-50 border-b border-neutral-400/20  ">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-                <Link href="/" className="text-xl font-semibold text-gray-900">
+                <Link href="/" className="text-xl font-semibold ">
                     Next<span className="text-blue-500">Pro</span>
                 </Link>
 
@@ -32,7 +33,7 @@ export default function Navbar() {
                             <li key={item.href}>
                                 <Link
                                     href={item.href}
-                                    className="text-sm font-medium text-gray-700 hover:text-gray-900"
+                                    className="text-sm font-medium "
                                 >
                                     {item.label}
                                 </Link>
@@ -42,14 +43,18 @@ export default function Navbar() {
                 </nav>
                 <ul className="flex gap-4">
                     <li >
-                        <Link href={'auth/login'} className={buttonVariants({ variant: "outline" })}>
+                        <Link href={'auth/login'} className={buttonVariants()}>
                             Login
                         </Link>
                     </li>
                     <li >
-                        <Link href={'auth/register'} className={buttonVariants({ variant: 'outline' })}>
+                        <Link href={'auth/sign-up'} className={buttonVariants()}>
                             Sign up
                         </Link>
+                    </li>
+                    <li >
+                        <ModeToggle />
+
                     </li>
 
                 </ul>
