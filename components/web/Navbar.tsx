@@ -1,9 +1,10 @@
 "use client";
 
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { ModeToggle } from "./theme-toggle";
+import { useConvexAuth } from "convex/react";
 
 type NavItem = {
     label: string;
@@ -18,7 +19,7 @@ const navItems: NavItem[] = [
 ];
 
 export default function Navbar() {
-
+    const { isAuthenticated, isLoading } = useConvexAuth()
     return (
         <header className="sticky top-0 z-50 border-b border-neutral-400/20  ">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
@@ -41,23 +42,27 @@ export default function Navbar() {
                         ))}
                     </ul>
                 </nav>
-                <ul className="flex gap-4">
-                    <li >
-                        <Link href={'auth/login'} className={buttonVariants()}>
-                            Login
-                        </Link>
-                    </li>
-                    <li >
-                        <Link href={'auth/sign-up'} className={buttonVariants()}>
-                            Sign up
-                        </Link>
-                    </li>
-                    <li >
-                        <ModeToggle />
+                {isLoading ? null : isAuthenticated ? (
+                    <Button>Logout</Button>
+                ) : (
+                    <ul className="flex gap-4">
+                        <li >
+                            <Link href={'auth/login'} className={buttonVariants()}>
+                                Login
+                            </Link>
+                        </li>
+                        <li >
+                            <Link href={'auth/sign-up'} className={buttonVariants()}>
+                                Sign up
+                            </Link>
+                        </li>
+                        <li >
+                            <ModeToggle />
 
-                    </li>
+                        </li>
 
-                </ul>
+                    </ul>
+                )}
             </div>
 
 

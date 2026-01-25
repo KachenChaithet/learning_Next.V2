@@ -4,6 +4,7 @@ const SharedLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
             <Navbar />
+            {children}
         </>
     )
 }
