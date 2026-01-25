@@ -75,7 +75,7 @@ const SignUpPage = () => {
                     </form>
                 </CardContent>
 
-            </Card >
+            </Card>
         </>
     )
 }

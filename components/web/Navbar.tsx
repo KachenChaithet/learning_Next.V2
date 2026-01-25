@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ModeToggle } from "./theme-toggle";
 import { useConvexAuth } from "convex/react";
+import { authClient } from "@/lib/auth-client";
 
 type NavItem = {
     label: string;
@@ -20,6 +21,14 @@ const navItems: NavItem[] = [
 
 export default function Navbar() {
     const { isAuthenticated, isLoading } = useConvexAuth()
+
+    const handleLogout = async() => {
+        try {
+            await authClient.signOut({})
+        } catch (err) {
+            console.error(err)
+        }
+    }
     return (
         <header className="sticky top-0 z-50 border-b border-neutral-400/20  ">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
@@ -43,7 +52,7 @@ export default function Navbar() {
                     </ul>
                 </nav>
                 {isLoading ? null : isAuthenticated ? (
-                    <Button>Logout</Button>
+                    <Button onClick={() => handleLogout()}>Logout</Button>
                 ) : (
                     <ul className="flex gap-4">
                         <li >
