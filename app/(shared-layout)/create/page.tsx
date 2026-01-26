@@ -1,5 +1,6 @@
 "use client";
 
+import { createBlogAction } from "@/app/actions";
 import { postSchema } from "@/app/schemas/blog"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -29,11 +30,14 @@ const CreatePage = () => {
 
     const handleCreatePost = async (values: z.infer<typeof postSchema>) => {
         startTransition(async () => {
-            await mutation({
-                body: values.content,
-                title: values.title,
-            })
+            // await mutation({
+            //     body: values.content,
+            //     title: values.title,
+            // })
 
+            await fetch('/api/create-blog', {
+                method: "POST",
+            })
             toast.success('Created Post Successfully')
             route.push('/')
         })
