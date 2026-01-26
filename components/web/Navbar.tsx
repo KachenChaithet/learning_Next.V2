@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ModeToggle } from "./theme-toggle";
 import { useConvexAuth } from "convex/react";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 type NavItem = {
     label: string;
@@ -22,9 +23,18 @@ const navItems: NavItem[] = [
 export default function Navbar() {
     const { isAuthenticated, isLoading } = useConvexAuth()
 
-    const handleLogout = async() => {
+    const handleLogout = async () => {
         try {
-            await authClient.signOut({})
+            await authClient.signOut({
+                fetchOptions: {
+                    onSuccess: () => {
+                        toast.success('logout success')
+                    },
+                    onError: (error) => {
+                        toast.error(error.error.message)
+                    }
+                }
+            })
         } catch (err) {
             console.error(err)
         }

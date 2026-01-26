@@ -9,6 +9,7 @@ import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form"
+import { toast } from "sonner";
 import z from "zod";
 
 const LoginPage = () => {
@@ -25,7 +26,15 @@ const LoginPage = () => {
         try {
             await authClient.signIn.email({
                 email: data.email,
-                password: data.password
+                password: data.password,
+                fetchOptions: {
+                    onSuccess: () => {
+                        toast.success('login success')
+                    },
+                    onError: (error) => {
+                        toast.error(error.error.message)
+                    }
+                }
             })
             route.push("/")
         } catch (error) {

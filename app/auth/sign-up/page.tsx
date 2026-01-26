@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
+import { toast } from "sonner";
 import z from "zod";
 
 const SignUpPage = () => {
@@ -25,6 +26,14 @@ const SignUpPage = () => {
             email: data.email,
             name: data.name,
             password: data.password,
+            fetchOptions: {
+                onSuccess: () => {
+                    toast.success('singup success')
+                },
+                onError: (error) => {
+                    toast.error(error.error.message)
+                }
+            }
         })
     }
     return (
