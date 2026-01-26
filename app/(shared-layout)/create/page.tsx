@@ -7,9 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { api } from "@/convex/_generated/api";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { Controller, useForm } from "react-hook-form"
@@ -19,7 +17,6 @@ import z from "zod";
 const CreatePage = () => {
     const route = useRouter()
     const [isPending, startTransition] = useTransition()
-    const mutation = useMutation(api.post.createTask)
     const form = useForm({
         resolver: zodResolver(postSchema),
         defaultValues: {
@@ -30,16 +27,8 @@ const CreatePage = () => {
 
     const handleCreatePost = async (values: z.infer<typeof postSchema>) => {
         startTransition(async () => {
-            // await mutation({
-            //     body: values.content,
-            //     title: values.title,
-            // })
-
-            await fetch('/api/create-blog', {
-                method: "POST",
-            })
+            await createBlogAction(values)
             toast.success('Created Post Successfully')
-            route.push('/')
         })
 
 

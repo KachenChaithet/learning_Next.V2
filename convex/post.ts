@@ -3,7 +3,7 @@ import { ConvexError, v } from "convex/values";
 import { authComponent } from "./auth";
 
 // Create a new task with the given text
-export const createTask = mutation({
+export const createPost = mutation({
     args: {
         title: v.string(),
         body: v.string(),
