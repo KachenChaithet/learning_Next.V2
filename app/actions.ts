@@ -18,7 +18,6 @@ export const createBlogAction = async (values: z.infer<typeof postSchema>) => {
     await fetchAuthMutation(api.post.createPost, {
         body: parsed.data.content,
         title: parsed.data.title,
-
     })
 
     return redirect('/')
