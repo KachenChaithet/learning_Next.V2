@@ -43,7 +43,7 @@ export default function Navbar() {
         <header className="sticky top-0 z-50 border-b border-neutral-400/20  ">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
                 <Link href="/" className="text-xl font-semibold ">
-                    Next<span className="text-blue-500">Pro</span>
+                    Next<span className="text-primary">Pro</span>
                 </Link>
 
 
@@ -62,7 +62,14 @@ export default function Navbar() {
                     </ul>
                 </nav>
                 {isLoading ? null : isAuthenticated ? (
-                    <Button onClick={() => handleLogout()}>Logout</Button>
+                    <>
+                        <div className="flex gap-4">
+                            <Button onClick={() => handleLogout()}>Logout</Button>
+                            <ModeToggle />
+                        </div>
+
+                    </>
+
                 ) : (
                     <ul className="flex gap-4">
                         <li >
