@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
         protocol: "https",
         port: ""
+      },
+      {
+        hostname: 'capable-mammoth-389.convex.cloud',
+        protocol: "https",
+        pathname: "/api/storage/**",
       }
     ]
   }

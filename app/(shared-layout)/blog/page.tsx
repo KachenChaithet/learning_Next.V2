@@ -1,4 +1,3 @@
-
 import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -12,8 +11,6 @@ import { Suspense } from "react"
 
 const BlogPage = () => {
 
-    // const data = useQuery(api.post.getPost)
-
 
 
     return (
@@ -26,7 +23,7 @@ const BlogPage = () => {
             <Suspense fallback={<SkeletonLoadingUi />}>
                 <LoadBlogList />
             </Suspense>
-            
+
 
         </div>
     )
@@ -37,14 +34,15 @@ const LoadBlogList = async () => {
     await new Promise(res => setTimeout(res, 3000))
     const data = await fetchQuery(api.post.getPost)
 
+    console.log(data);
 
     return (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3  ">
             {data?.map((item) => (
                 <Card key={item._id} className="p-0 overflow-hidden min-h-105">
                     <div className="relative h-48 w-full overflow-hidden">
-                        <Image
-                            src="/Successful-Blogging-Space-Topics-.jpg"
+                         <Image
+                            src={item.imageUrl ?? '/Successful-Blogging-Space-Topics-.jpg'}
                             alt="image"
                             fill
                             className="object-cover hover:scale-110 transition duration-300"

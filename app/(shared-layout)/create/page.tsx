@@ -21,7 +21,8 @@ const CreatePage = () => {
         resolver: zodResolver(postSchema),
         defaultValues: {
             content: '',
-            title: ''
+            title: '',
+            image: undefined
         }
     })
 
@@ -63,6 +64,18 @@ const CreatePage = () => {
                                 <Field>
                                     <FieldLabel>Content</FieldLabel>
                                     <Textarea aria-invalid={fieldState.invalid} placeholder="Enter your Content" {...field} />
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]}></FieldError>
+                                    )}
+                                </Field>
+                            )} />
+                            <Controller name="image" control={form.control} render={({ field, fieldState }) => (
+                                <Field>
+                                    <FieldLabel>Image</FieldLabel>
+                                    <Input aria-invalid={fieldState.invalid} placeholder="Enter your Content" type="file" accept="image/*" onChange={(e) => {
+                                        const file = e.target.files?.[0]
+                                        field.onChange(file)
+                                    }} />
                                     {fieldState.invalid && (
                                         <FieldError errors={[fieldState.error]}></FieldError>
                                     )}
