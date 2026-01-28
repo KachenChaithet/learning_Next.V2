@@ -8,6 +8,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { Suspense } from "react"
 
+export const revalidate = 60;
+
+// 'auto' | 'force-dynamic' | 'error' | 'force-static'
 
 const BlogPage = () => {
 
@@ -41,7 +44,7 @@ const LoadBlogList = async () => {
             {data?.map((item) => (
                 <Card key={item._id} className="p-0 overflow-hidden min-h-105">
                     <div className="relative h-48 w-full overflow-hidden">
-                         <Image
+                        <Image
                             src={item.imageUrl ?? '/Successful-Blogging-Space-Topics-.jpg'}
                             alt="image"
                             fill
