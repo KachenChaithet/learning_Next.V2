@@ -6,7 +6,7 @@ import { fetchMutation, fetchQuery } from "convex/nextjs";
 import { postSchema } from "./schemas/blog";
 import { redirect } from "next/navigation";
 import { fetchAuthMutation } from "@/lib/auth-server";
-import { error } from "console";
+import { revalidatePath } from "next/cache";
 
 
 export const createBlogAction = async (values: z.infer<typeof postSchema>) => {
@@ -38,15 +38,15 @@ export const createBlogAction = async (values: z.infer<typeof postSchema>) => {
             body: parsed.data.content,
             title: parsed.data.title,
             imageStorageId: storageId
-
-
         })
+
     } catch (error) {
         error: 'Faild to create post'
 
     }
 
 
+    revalidatePath('/blog')
 
     return redirect('/')
 

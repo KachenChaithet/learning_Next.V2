@@ -37,7 +37,6 @@ const LoadBlogList = async () => {
     await new Promise(res => setTimeout(res, 3000))
     const data = await fetchQuery(api.post.getPost)
 
-    console.log(data);
 
     return (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3  ">
