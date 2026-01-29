@@ -1,5 +1,6 @@
 import { buttonVariants } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import CommentSection from "@/components/web/CommentSection"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
 import { fetchQuery } from "convex/nextjs"
@@ -14,6 +15,8 @@ interface PostIdRouteProps {
 
 const PostIdRoute = async ({ params }: PostIdRouteProps) => {
     const { postId } = await params
+    const comments = await fetchQuery(api.comments.getCommentsByPost, { postId })
+
 
     const post = await fetchQuery(api.post.getPostById, { postId: postId })
 
@@ -51,6 +54,8 @@ const PostIdRoute = async ({ params }: PostIdRouteProps) => {
             <p className="text-lg leading-relaxed text-foreground/90 whitespace-pre-wrap">{post.body}</p>
 
             <Separator className="my-8 bg-muted-foreground" />
+
+            <CommentSection  />
 
         </div>
 

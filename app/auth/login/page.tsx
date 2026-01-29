@@ -26,7 +26,7 @@ const LoginPage = () => {
 
     const handleLogin = async (data: z.infer<typeof loginSchema>) => {
         try {
-            
+
             startTransition(async () => {
                 await authClient.signIn.email({
                     email: data.email,
