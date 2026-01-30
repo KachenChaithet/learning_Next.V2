@@ -1,6 +1,7 @@
 import { buttonVariants } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import CommentSection from "@/components/web/CommentSection"
+import PostPresence from "@/components/web/PostPresence"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
 import { fetchQuery, preloadQuery } from "convex/nextjs"
@@ -17,6 +18,7 @@ interface PostIdRouteProps {
 export const generateMetadata = async ({ params }: PostIdRouteProps): Promise<Metadata> => {
     const { postId } = await params
 
+
     const post = await fetchQuery(api.post.getPostById, { postId })
 
     if (!post) {
@@ -32,12 +34,16 @@ export const generateMetadata = async ({ params }: PostIdRouteProps): Promise<Me
 
 const PostIdRoute = async ({ params }: PostIdRouteProps) => {
     const { postId } = await params
-    const [post, preloadedComments] = await Promise.all([
+    const [post, preloadedComments, userId] = await Promise.all([
         await fetchQuery(api.post.getPostById, { postId: postId }),
         await preloadQuery(api.comments.getCommentsByPost, {
             postId
         }),
+
+        await fetchQuery(api.presence.getUserId, {})
+
     ])
+    console.log(userId);
 
 
     if (!post) {
@@ -68,6 +74,7 @@ const PostIdRoute = async ({ params }: PostIdRouteProps) => {
                 <h1 className="text-4xl font-bold tracking-tighter text-foreground">{post.title}</h1>
                 <p className="text-sm text-muted-foreground">Post on: {new Date(post._creationTime).toLocaleDateString()}</p>
 
+                {userId && <PostPresence roomId={post._id} userId={userId} />}
             </div>
 
             <Separator className="my-8 bg-muted-foreground" />
