@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { api } from "@/convex/_generated/api"
 import { fetchQuery } from "convex/nextjs"
+import { Metadata } from "next"
 // import { useQuery } from "convex/react"
 import Image from "next/image"
 import Link from "next/link"
@@ -11,6 +12,12 @@ import { Suspense } from "react"
 export const revalidate = 60;
 
 // 'auto' | 'force-dynamic' | 'error' | 'force-static'
+export const metadata: Metadata = {
+    title: 'Blog | Next.js 16 Tutorial',
+    description: 'Read out lastest articles and insiths',
+    category: "Web Development",
+    authors: [{ name: 'kachen chiyathet' }]
+}
 
 const BlogPage = () => {
 

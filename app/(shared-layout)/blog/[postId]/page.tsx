@@ -5,12 +5,29 @@ import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
 import { fetchQuery, preloadQuery } from "convex/nextjs"
 import { ArrowLeft, PoundSterling } from "lucide-react"
+import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 
 
 interface PostIdRouteProps {
     params: Promise<{ postId: Id<"posts"> }>
+}
+
+export const generateMetadata = async ({ params }: PostIdRouteProps): Promise<Metadata> => {
+    const { postId } = await params
+
+    const post = await fetchQuery(api.post.getPostById, { postId })
+
+    if (!post) {
+        return {
+            title: "Post not found"
+        }
+    }
+    return {
+        title: post.title,
+        description: post.body
+    }
 }
 
 const PostIdRoute = async ({ params }: PostIdRouteProps) => {
