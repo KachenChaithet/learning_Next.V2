@@ -11,11 +11,13 @@ import { Textarea } from "../ui/textarea"
 import { Button } from "../ui/button"
 import { useParams } from "next/navigation";
 import { Id } from "@/convex/_generated/dataModel";
-import { useMutation, useQuery } from "convex/react";
+import { Preloaded, useMutation, usePreloadedQuery, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import z from "zod";
 import { toast } from "sonner";
 import { useTransition } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Separator } from "../ui/separator";
 
 interface iAppProps {
     comments: {
@@ -29,12 +31,13 @@ interface iAppProps {
 }
 
 
-const CommentSection = () => {
+const CommentSection = (props: {
+    preloadedComments: Preloaded<typeof api.comments.getCommentsByPost>;
+}) => {
     const [isPending, startTransition] = useTransition()
     const { postId } = useParams<{ postId: Id<'posts'> }>()
-    const comments = useQuery(api.comments.getCommentsByPost, { postId })
+    const comments = usePreloadedQuery(props.preloadedComments)
     const createComment = useMutation(api.comments.createComment)
-    console.log(comments);
 
 
     const form = useForm({
@@ -56,14 +59,18 @@ const CommentSection = () => {
         })
     }
 
+    if (comments === undefined) {
+        return <p>Loading...</p>
+    }
+
     return (
         <Card>
             <CardHeader className="flex flex-row items-center gap-2 border-b border-muted-foreground">
                 <MessageSquare className="size-5" />
-                <h2 className="text-xl font-bold">5 Coments</h2>
+                <h2 className="text-xl font-bold">{comments.length} Coments</h2>
             </CardHeader>
 
-            <CardContent>
+            <CardContent className="space-y-8">
                 <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
                     <Controller
                         name="body"
@@ -80,12 +87,27 @@ const CommentSection = () => {
                     />
 
                     <Button type="submit" disabled={isPending}>{isPending ? "Submit..." : "Submit"}</Button>
-                    {JSON.stringify(comments)}
                 </form>
-
+                {comments?.length > 0 && <Separator />}
                 <section className="space-y-6">
                     {comments?.map((comment) => (
                         <div key={comment._id} className="flex gap-4">
+                            <Avatar className="size-10  shrink-0">
+                                <AvatarImage src={`https://avatar.vercel.sh/${comment.authorName}`}
+                                    alt={comment.authorName}
+                                />
+                                <AvatarFallback>
+                                    {comment.authorName.slice(0, 2).toUpperCase()}
+                                </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 space-y-1">
+                                <div className="flex items-center justify-between">
+                                    <p className="font-semibold text-sm">{comment.authorName}</p>
+                                    <p className="text-muted-foreground font-semibold text-sm">{new Date(comment._creationTime).toLocaleDateString()}</p>
+                                </div>
+
+                                <p className="text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed">{comment.body}</p>
+                            </div>
 
                         </div>
                     ))}
