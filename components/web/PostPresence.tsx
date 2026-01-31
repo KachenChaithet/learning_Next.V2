@@ -22,9 +22,9 @@ const PostPresence = ({ roomId, userId }: iAppProps) => {
     return (
         <div className="flex items-center gap-2  ">
             <p className="text-xs uppercase tracking-wide">Viewing now</p>
-            <div className="">
+            <div className="text-black">
 
-                <FacePile presenceState={presenceState ?? []} />
+                <FacePile   presenceState={presenceState ?? []} />
             </div>
         </div>
     )
