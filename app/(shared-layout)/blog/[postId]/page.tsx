@@ -63,6 +63,7 @@ const PostIdRoute = async ({ params }: PostIdRouteProps) => {
         )
     }
     return (
+        
         <div className="max-w-3xl mx-auto py-8 px-4 animate-in fade-in duration-500 relative">
             <Link href={'/blog'} className={buttonVariants({ variant: 'outline', className: 'mb-4' })}>
                 <ArrowLeft className="size-4" />
