@@ -47,8 +47,14 @@ const SearchInput = () => {
                                     <Link
                                         href={`/blog/${post._id}`}
                                         className="block px-3 py-2 text-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+                                        onClick={() => {
+                                            setOpen(false)
+                                            setTerm("")
+                                        }}
                                     >
-                                        {post.title}
+                                        <p className="font-medium truncate">{post.title}</p>
+                                        <p className="text-xs text-muted-foreground pt-1">{post.body.substring(0, 60)}</p>
+
                                     </Link>
                                 </li>
                             ))}
