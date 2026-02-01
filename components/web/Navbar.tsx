@@ -7,6 +7,7 @@ import { ModeToggle } from "./theme-toggle";
 import { useConvexAuth } from "convex/react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import SearchInput from "./SearchInput";
 
 type NavItem = {
     label: string;
@@ -61,6 +62,9 @@ export default function Navbar() {
                         ))}
                     </ul>
                 </nav>
+                <div className="hidden md:block mr-2">
+                    <SearchInput />
+                </div>
                 {isLoading ? null : isAuthenticated ? (
                     <>
                         <div className="flex gap-4">
